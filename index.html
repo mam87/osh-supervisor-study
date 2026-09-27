@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>موسوعة مشرف السلامة — منصة دراسية شاملة</title>
+<meta name="description" content="منصة دراسية شاملة لتحضير امتحان مشرف فني السلامة والصحة المهنية: 18 وحدة، بنك أسئلة، مرجع أرقام، وبحث فوري في كل المحتوى.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦺</text></svg>">
+</head>
+<body>
+
+<header class="site">
+  <div class="header-row">
+    <a class="brand" href="index.html"><span class="logo">🦺</span><span>موسوعة مشرف السلامة</span></a>
+    <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+    <nav class="top" id="topNav">
+      <a href="index.html" class="active">الوحدات</a>
+      <a href="quiz.html">بنك الأسئلة</a>
+      <a href="numbers.html">مرجع الأرقام</a>
+    </nav>
+    <div class="search-wrap">
+      <input id="globalSearch" type="text" placeholder="ابحث في كل الوحدات… (مثال: الضمان الاجتماعي)" autocomplete="off">
+      <span class="search-icon">🔍</span>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <button class="theme-btn" id="themeToggle" title="تبديل الوضع الليلي/النهاري">🌓</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>موسوعة مشرف فني السلامة والصحة المهنية</h1>
+    <p>منصة دراسية شاملة تغطّي محتوى معهد السلامة والصحة المهنية (مؤسسة التدريب المهني الأردنية) كاملًا — ١٨ وحدة، مبسّطة ومنظّمة للحفظ والفهم والبحث السريع قبل الامتحان.</p>
+    <div class="stats-strip">
+      <span class="stat-chip"><b id="statUnits">١٨</b> وحدة</span>
+      <span class="stat-chip"><b id="statSlides">—</b> شريحة تعليمية</span>
+      <span class="stat-chip"><b id="statQ">٢٧٠</b> سؤال تدريبي</span>
+      <span class="stat-chip"><b id="statNum">٢٠٠+</b> رقم وقيمة مرجعية</span>
+    </div>
+  </section>
+
+  <div class="tools-row">
+    <a class="tool-card" href="quiz.html">
+      <span class="ic">📝</span>
+      <span><span class="tt">بنك الأسئلة الشامل</span><br><span class="ds">تدرّب على ٢٧٠ سؤال من كل الوحدات</span></span>
+    </a>
+    <a class="tool-card" href="numbers.html">
+      <span class="ic">🔢</span>
+      <span><span class="tt">مرجع الأرقام والقيم</span><br><span class="ds">كل الأرقام الحرجة في مكان واحد</span></span>
+    </a>
+  </div>
+
+  <section class="section-h"><h2>الوحدات التدريبية</h2></section>
+  <div class="grid" id="unitsGrid">
+    <div class="loading">جاري التحميل…</div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    إعداد: <strong>مأمون السعودي</strong> — منصة دراسية مبنية بمساعدة Claude، بالاستناد إلى مناهج معهد السلامة والصحة المهنية (مؤسسة التدريب المهني، الأردن).<br>
+    <a href="https://github.com/mam87/osh-supervisor-study" target="_blank" rel="noopener">المصدر على GitHub</a>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+(async function(){
+  try{
+    const catalog = await loadJSON("catalog.json");
+    const grid = document.getElementById("unitsGrid");
+    let totalSlides = 0;
+    grid.innerHTML = catalog.map(u => {
+      totalSlides += u.slideCount;
+      const c = u.colors || {};
+      return `<a class="ucard" href="unit.html?u=${u.n}" style="--uc-color:${c.amber || '#E8A400'}">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <span class="un">الوحدة ${toAr(u.n)}</span>
+          <span class="uicon" style="--uc-color:${c.amber || '#E8A400'}">📘</span>
+        </div>
+        <div class="ut">${escapeHtml(u.title)}</div>
+        <div class="ud">${escapeHtml(u.description || '')}</div>
+        <div class="um"><span>${toAr(u.slideCount)} شريحة</span>${u.pages && u.pages !== '—' ? `<span>ص ${u.pages}</span>` : '<span></span>'}</div>
+      </a>`;
+    }).join("");
+    document.getElementById("statSlides").textContent = toAr(totalSlides);
+  }catch(e){
+    document.getElementById("unitsGrid").innerHTML = '<div class="empty-state">تعذّر تحميل بيانات الوحدات.</div>';
+    console.error(e);
+  }
+})();
+function toAr(n){
+  const d = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+  return String(n).split('').map(c => /[0-9]/.test(c) ? d[+c] : c).join('');
+}
+</script>
+</body>
+</html>

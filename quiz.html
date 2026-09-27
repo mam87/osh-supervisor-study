@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بنك الأسئلة — موسوعة مشرف السلامة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="header-row">
+    <a class="brand" href="index.html"><span class="logo">🦺</span><span>موسوعة مشرف السلامة</span></a>
+    <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+    <nav class="top" id="topNav">
+      <a href="index.html">الوحدات</a>
+      <a href="quiz.html" class="active">بنك الأسئلة</a>
+      <a href="numbers.html">مرجع الأرقام</a>
+    </nav>
+    <div class="search-wrap">
+      <input id="globalSearch" type="text" placeholder="ابحث في كل الوحدات…" autocomplete="off">
+      <span class="search-icon">🔍</span>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <button class="theme-btn" id="themeToggle" title="تبديل الوضع الليلي/النهاري">🌓</button>
+  </div>
+</header>
+
+<main class="wrap" style="max-width:760px;">
+  <section class="section-h" style="padding-top:1.8rem;">
+    <h2>بنك الأسئلة الشامل</h2>
+    <p style="color:var(--ink-soft); font-size:.92rem;">٢٧٠ سؤال (اختيار من متعدّد وصح/خطأ) من جميع الوحدات الثمانية عشرة. اختر الوحدات وابدأ التدريب.</p>
+  </section>
+
+  <div class="filters">
+    <select id="unitFilter" multiple size="1" style="display:none;"></select>
+    <button class="btn secondary" id="btnAllUnits">كل الوحدات</button>
+    <select id="unitPicker">
+      <option value="all">كل الوحدات (٢٧٠ سؤال)</option>
+    </select>
+    <select id="typeFilter">
+      <option value="all">كل الأنواع</option>
+      <option value="mcq">اختيار من متعدّد فقط</option>
+      <option value="tf">صح/خطأ فقط</option>
+    </select>
+    <button class="btn" id="btnStart">ابدأ التدريب 🚀</button>
+  </div>
+
+  <div id="quizArea"></div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    إعداد: <strong>مأمون السعودي</strong> — منصة دراسية مبنية بمساعدة Claude، بالاستناد إلى مناهج معهد السلامة والصحة المهنية (مؤسسة التدريب المهني، الأردن).<br>
+    <a href="https://github.com/mam87/osh-supervisor-study" target="_blank" rel="noopener">المصدر على GitHub</a>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+function toAr(n){ const d=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return String(n).split('').map(c=>/[0-9]/.test(c)?d[+c]:c).join(''); }
+function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+let ALL_Q = [];
+let session = null; // {items, idx, score, answered}
+
+(async function(){
+  ALL_Q = await loadJSON('questions.json');
+  const picker = document.getElementById('unitPicker');
+  const units = [...new Set(ALL_Q.map(q => q.unit))].sort((a,b)=>a-b);
+  for(const u of units){
+    const title = ALL_Q.find(q => q.unit === u).unitTitle;
+    const count = ALL_Q.filter(q => q.unit === u).length;
+    const opt = document.createElement('option');
+    opt.value = u;
+    opt.textContent = `الوحدة ${toAr(u)}: ${title} (${toAr(count)})`;
+    picker.appendChild(opt);
+  }
+})();
+
+document.getElementById('btnStart').addEventListener('click', () => {
+  const unitVal = document.getElementById('unitPicker').value;
+  const typeVal = document.getElementById('typeFilter').value;
+  let pool = ALL_Q;
+  if(unitVal !== 'all') pool = pool.filter(q => String(q.unit) === unitVal);
+  if(typeVal !== 'all') pool = pool.filter(q => q.type === typeVal);
+  if(pool.length === 0){
+    document.getElementById('quizArea').innerHTML = '<div class="empty-state">لا توجد أسئلة مطابقة لهذا الفلتر.</div>';
+    return;
+  }
+  session = { items: shuffle(pool), idx: 0, score: 0, answered: false };
+  renderQuestion();
+});
+
+function renderQuestion(){
+  const area = document.getElementById('quizArea');
+  if(session.idx >= session.items.length){
+    area.innerHTML = `<div class="quiz-card" style="text-align:center;">
+      <h2>انتهى التدريب 🎉</h2>
+      <p style="font-size:1.3rem; margin:1rem 0;">نتيجتك: <span class="score-badge">${toAr(session.score)} / ${toAr(session.items.length)}</span></p>
+      <button class="btn" onclick="document.getElementById('btnStart').click()">تدريب جديد بنفس الفلتر 🔁</button>
+    </div>`;
+    return;
+  }
+  const item = session.items[session.idx];
+  session.answered = false;
+  const opts = item.type === 'tf' ? ['صح', 'خطأ'] : item.options.map(o => o.replace(/^[أابجد]\)\s*/,''));
+  area.innerHTML = `<div class="quiz-card">
+    <div class="quiz-progress">السؤال ${toAr(session.idx+1)} من ${toAr(session.items.length)} — النتيجة الحالية: ${toAr(session.score)}</div>
+    <div class="quiz-unit-tag">الوحدة ${toAr(item.unit)}: ${escapeHtml(item.unitTitle)}</div>
+    <div class="quiz-q">${escapeHtml(item.q)}</div>
+    <div id="optsWrap">${opts.map((o,i) => `<button class="quiz-opt" data-i="${i}">${escapeHtml(o)}</button>`).join('')}</div>
+    <div id="explainWrap"></div>
+    <div class="quiz-footer">
+      <button class="btn secondary" id="btnSkip">تخطّي ▸</button>
+      <span></span>
+    </div>
+  </div>`;
+
+  const isCorrectIdx = () => {
+    if(item.type === 'tf') return item.answer.trim().startsWith('صح') ? 0 : 1;
+    // MCQ: find which option letter the answer references, e.g. "الإجابة: ب."
+    const m = item.answer.match(/الإجابة:\s*([أابجد])/);
+    const map = {'أ':0,'ا':0,'ب':1,'ج':2,'د':3};
+    return m ? map[m[1]] : -1;
+  };
+
+  document.querySelectorAll('.quiz-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if(session.answered) return;
+      session.answered = true;
+      const chosen = parseInt(btn.dataset.i, 10);
+      const correct = isCorrectIdx();
+      document.querySelectorAll('.quiz-opt').forEach((b,i) => {
+        if(i === correct) b.classList.add('correct');
+        else if(i === chosen) b.classList.add('wrong');
+      });
+      if(chosen === correct) session.score++;
+      document.getElementById('explainWrap').innerHTML = `<div class="quiz-explain">${escapeHtml(item.answer)}</div>
+        <button class="btn" style="margin-top:.9rem;" id="btnNext">السؤال التالي ▸</button>`;
+      document.getElementById('btnNext').addEventListener('click', () => { session.idx++; renderQuestion(); });
+    });
+  });
+  document.getElementById('btnSkip').addEventListener('click', () => { session.idx++; renderQuestion(); });
+}
+</script>
+</body>
+</html>

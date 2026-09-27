@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مرجع الأرقام والقيم — موسوعة مشرف السلامة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="header-row">
+    <a class="brand" href="index.html"><span class="logo">🦺</span><span>موسوعة مشرف السلامة</span></a>
+    <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+    <nav class="top" id="topNav">
+      <a href="index.html">الوحدات</a>
+      <a href="quiz.html">بنك الأسئلة</a>
+      <a href="numbers.html" class="active">مرجع الأرقام</a>
+    </nav>
+    <div class="search-wrap">
+      <input id="globalSearch" type="text" placeholder="ابحث في كل الوحدات…" autocomplete="off">
+      <span class="search-icon">🔍</span>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <button class="theme-btn" id="themeToggle" title="تبديل الوضع الليلي/النهاري">🌓</button>
+  </div>
+</header>
+
+<main class="wrap" style="max-width:920px;">
+  <section class="section-h" style="padding-top:1.8rem;">
+    <h2>مرجع الأرقام والقيم الشامل</h2>
+    <p style="color:var(--ink-soft); font-size:.92rem;">كل الأرقام والنسب والحدود القانونية من جميع الوحدات في جدول واحد قابل للبحث والفرز — مثالي للمراجعة الأخيرة قبل الامتحان.</p>
+  </section>
+
+  <div class="num-toolbar">
+    <input type="text" id="numSearch" placeholder="فلترة برقم أو كلمة… (مثال: PPM، ٦٠ متر، الرصاص)" style="flex:1; min-width:220px; padding:.55rem .9rem; border-radius:8px; border:1px solid var(--line); background:var(--surface); color:var(--ink); font-family:inherit;">
+    <select id="unitFilterNum" style="padding:.55rem .8rem; border-radius:8px; border:1px solid var(--line); background:var(--surface); color:var(--ink); font-family:inherit;">
+      <option value="all">كل الوحدات</option>
+    </select>
+    <span id="numCount" style="align-self:center; color:var(--ink-soft); font-size:.85rem;"></span>
+  </div>
+
+  <div class="num-table-wrap">
+    <table id="numTable">
+      <thead><tr><th>الوحدة</th><th>الموضوع</th><th>القيمة</th></tr></thead>
+      <tbody id="numBody"><tr><td colspan="3" class="loading">جاري التحميل…</td></tr></tbody>
+    </table>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    إعداد: <strong>مأمون السعودي</strong> — منصة دراسية مبنية بمساعدة Claude، بالاستناد إلى مناهج معهد السلامة والصحة المهنية (مؤسسة التدريب المهني، الأردن).<br>
+    <a href="https://github.com/mam87/osh-supervisor-study" target="_blank" rel="noopener">المصدر على GitHub</a>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+function toAr(n){ const d=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return String(n).split('').map(c=>/[0-9]/.test(c)?d[+c]:c).join(''); }
+let ALL_NUM = [];
+
+(async function(){
+  ALL_NUM = await loadJSON('numbers.json');
+  const sel = document.getElementById('unitFilterNum');
+  const units = [...new Set(ALL_NUM.map(r => r.unit))].sort((a,b)=>a-b);
+  for(const u of units){
+    const title = ALL_NUM.find(r => r.unit === u).unitTitle;
+    const opt = document.createElement('option');
+    opt.value = u; opt.textContent = `الوحدة ${toAr(u)}: ${title}`;
+    sel.appendChild(opt);
+  }
+  render();
+})();
+
+function render(){
+  const q = normalizeAr(document.getElementById('numSearch').value);
+  const uf = document.getElementById('unitFilterNum').value;
+  let rows = ALL_NUM;
+  if(uf !== 'all') rows = rows.filter(r => String(r.unit) === uf);
+  if(q) rows = rows.filter(r => normalizeAr(r.topic + ' ' + r.value).includes(q));
+  document.getElementById('numCount').textContent = toAr(rows.length) + ' صف';
+  const body = document.getElementById('numBody');
+  if(rows.length === 0){
+    body.innerHTML = '<tr><td colspan="3" class="empty-state">لا توجد نتائج.</td></tr>';
+    return;
+  }
+  body.innerHTML = rows.map(r => `<tr>
+    <td><a href="unit.html?u=${r.unit}" style="color:var(--brand-2-deep); font-weight:600; text-decoration:none; white-space:nowrap;">${toAr(r.unit)}</a></td>
+    <td>${escapeHtml(r.topic)}</td>
+    <td style="font-family:'IBM Plex Mono',monospace; white-space:nowrap;">${escapeHtml(r.value)}</td>
+  </tr>`).join('');
+}
+document.getElementById('numSearch').addEventListener('input', render);
+document.getElementById('unitFilterNum').addEventListener('change', render);
+</script>
+</body>
+</html>
