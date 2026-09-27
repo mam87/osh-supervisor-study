@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>دليل المعادلات — موسوعة مشرف السلامة</title>
+<meta name="description" content="كل المعادلات والقوانين الحسابية الواردة في مادة مشرف السلامة والصحة المهنية، مجمّعة في صفحة واحدة قابلة للبحث والطباعة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .eq-card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:1.1rem 1.3rem; margin-bottom:1rem; box-shadow:var(--shadow);}
+  .eq-unit-tag{display:inline-flex; align-items:center; gap:.4rem; font-size:.72rem; font-weight:700; color:var(--brand-2-deep); margin-bottom:.5rem;}
+  .eq-name{font-weight:700; font-size:1rem; margin-bottom:.5rem;}
+  .eq-formula{font-family:'IBM Plex Mono',monospace; font-size:1.05rem; text-align:center; padding:.8rem 1rem; background:var(--surface-2); border-radius:9px; margin-bottom:.6rem; direction:ltr; unicode-bidi:plate; overflow-x:auto;}
+  .eq-formula:lang(ar){direction:rtl;}
+  .eq-desc{font-size:.9rem; color:var(--ink-soft); margin-bottom:0;}
+  .eq-note{margin-top:.6rem; padding-top:.6rem; border-top:1px dashed var(--line); font-size:.85rem; color:var(--bad);}
+  .eq-note b{color:var(--bad);}
+  .unit-heading{margin:2rem 0 .8rem; padding-bottom:.4rem; border-bottom:2px solid var(--line); font-size:1.15rem; display:flex; align-items:center; gap:.6rem;}
+  .unit-heading .dot{width:10px; height:10px; border-radius:50%;}
+  .jump-nav{display:flex; gap:.4rem; flex-wrap:wrap; margin:1rem 0 1.6rem;}
+  .jump-nav a{font-size:.78rem; padding:.3rem .65rem; border-radius:7px; background:var(--surface-2); border:1px solid var(--line); text-decoration:none; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
+  .jump-nav a:hover{color:var(--ink); border-color:var(--brand-2);}
+  @media print{ .jump-nav, .search-wrap{display:none !important;} }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="header-row">
+    <a class="brand" href="index.html"><span class="logo">🦺</span><span>موسوعة مشرف السلامة</span></a>
+    <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+    <nav class="top" id="topNav">
+      <a href="index.html">الوحدات</a>
+      <a href="quiz.html">بنك الأسئلة</a>
+      <a href="numbers.html">مرجع الأرقام</a>
+      <a href="equations.html" class="active">المعادلات</a>
+    </nav>
+    <div class="search-wrap">
+      <input id="globalSearch" type="text" placeholder="ابحث في كل الوحدات…" autocomplete="off">
+      <span class="search-icon">🔍</span>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <button class="theme-btn" id="themeToggle" title="تبديل الوضع الليلي/النهاري">🌓</button>
+  </div>
+</header>
+
+<main class="wrap" style="max-width:820px;">
+  <section class="section-h" style="padding-top:1.8rem;">
+    <h2>دليل المعادلات الشامل</h2>
+    <p style="color:var(--ink-soft); font-size:.92rem;">كل المعادلات والقوانين الحسابية الواردة في وحدات المادة (معدّلات الحوادث، الإجهاد الحراري، الإشعاع، الضوضاء، القانون الكهربائي، الحرائق، وغيرها) — مجمّعة هنا مرتّبة حسب الوحدة، مع أمثلة محلولة وأخطاء شائعة في الامتحان حيثما وردت. الصفحة قابلة للطباعة مباشرة (Ctrl+P) كملف مرجعي واحد.</p>
+  </section>
+
+  <div class="filters">
+    <input type="text" id="eqSearch" placeholder="فلترة بكلمة… (مثال: WBGT، أوم، تكرار)" style="flex:1; min-width:220px;">
+    <button class="btn secondary" id="btnPrint">🖨️ طباعة / حفظ PDF</button>
+  </div>
+
+  <div class="jump-nav" id="jumpNav"></div>
+
+  <div id="eqRoot" class="loading">جاري التحميل…</div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    إعداد: <strong>مأمون السعودي</strong> — منصة دراسية مبنية بمساعدة Claude، بالاستناد إلى مناهج معهد السلامة والصحة المهنية (مؤسسة التدريب المهني، الأردن).<br>
+    <a href="https://github.com/mam87/osh-supervisor-study" target="_blank" rel="noopener">المصدر على GitHub</a>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+function toAr(n){ const d=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return String(n).split('').map(c=>/[0-9]/.test(c)?d[+c]:c).join(''); }
+let ALL_EQ = [];
+
+(async function(){
+  ALL_EQ = await loadJSON('equations.json');
+  render(ALL_EQ);
+})();
+
+function groupByUnit(list){
+  const map = new Map();
+  for(const e of list){
+    if(!map.has(e.unit)) map.set(e.unit, []);
+    map.get(e.unit).push(e);
+  }
+  return [...map.entries()].sort((a,b) => a[0]-b[0]);
+}
+
+function render(list){
+  const root = document.getElementById('eqRoot');
+  const jump = document.getElementById('jumpNav');
+  if(list.length === 0){
+    root.innerHTML = '<div class="empty-state">لا توجد نتائج مطابقة.</div>';
+    jump.innerHTML = '';
+    return;
+  }
+  const groups = groupByUnit(list);
+  jump.innerHTML = groups.map(([u, items]) => `<a href="#u${u}">الوحدة ${toAr(u)} (${toAr(items.length)})</a>`).join('');
+  root.innerHTML = groups.map(([u, items]) => `
+    <div id="u${u}">
+      <div class="unit-heading"><a href="unit.html?u=${u}" style="text-decoration:none; color:inherit;">الوحدة ${toAr(u)}: ${escapeHtml(items[0].unitTitle)}</a></div>
+      ${items.map(e => `
+        <div class="eq-card">
+          <div class="eq-unit-tag">${escapeHtml(e.section || e.topic || '')}</div>
+          <div class="eq-name">${escapeHtml(e.name || e.topic)}</div>
+          ${e.equation ? `<div class="eq-formula" lang="en">${escapeHtml(e.equation)}</div>` : ''}
+          ${e.desc ? `<p class="eq-desc">${escapeHtml(e.desc)}</p>` : ''}
+          ${e.note ? `<div class="eq-note"><b>⚠ ${escapeHtml(e.note)}</b></div>` : ''}
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+document.getElementById('eqSearch').addEventListener('input', (ev) => {
+  const q = normalizeAr(ev.target.value);
+  if(!q){ render(ALL_EQ); return; }
+  const filtered = ALL_EQ.filter(e => normalizeAr([e.name, e.equation, e.desc, e.section, e.topic, e.unitTitle].join(' ')).includes(q));
+  render(filtered);
+});
+document.getElementById('btnPrint').addEventListener('click', () => window.print());
+</script>
+</body>
+</html>
