@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الملخص الشامل — موسوعة مشرف السلامة</title>
+<meta name="description" content="ملخص شامل للامتحان (اختيار من متعدد): كتب معهد السلامة السبعة عشر، قانون العمل، أنظمة وتعليمات 2023، والضمان الاجتماعي — مع المعادلات والأرقام والأفخاخ الشائعة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦺</text></svg>">
+<style>
+  .sum-tabs{display:flex; gap:.5rem; margin:1rem 0 .4rem; flex-wrap:wrap;}
+  .sum-tab{font:inherit; font-weight:700; font-size:.92rem; padding:.55rem 1.1rem; border-radius:10px; border:1px solid var(--line); background:var(--surface); color:var(--ink-soft); cursor:pointer;}
+  .sum-tab.active{background:var(--brand-2); color:#101B2D; border-color:var(--brand-2);}
+  .sum-panel{display:none;} .sum-panel.active{display:block;}
+  .jump-nav{display:flex; gap:.4rem; flex-wrap:wrap; margin:1rem 0 1.4rem;}
+  .jump-nav a{font-size:.78rem; padding:.3rem .65rem; border-radius:7px; background:var(--surface-2); border:1px solid var(--line); text-decoration:none; color:var(--ink-soft);}
+  .jump-nav a:hover{color:var(--ink); border-color:var(--brand-2);}
+  .sum-body{line-height:1.85; font-size:.97rem;}
+  .sum-body h2{margin:2.2rem 0 .8rem; padding:.5rem .8rem; border-right:5px solid var(--brand-2); background:var(--surface); border-radius:8px; font-size:1.2rem; scroll-margin-top:80px;}
+  .sum-body h3{margin:1.5rem 0 .6rem; font-size:1.04rem; color:var(--brand-2-deep); scroll-margin-top:80px;}
+  .sum-body ul,.sum-body ol{padding-inline-start:1.3rem;}
+  .sum-body li{margin:.25rem 0;}
+  .sum-body strong{color:var(--ink);}
+  .tbl-wrap{overflow-x:auto; margin:.8rem 0 1.2rem; border:1px solid var(--line); border-radius:10px; background:var(--surface);}
+  .sum-body table{border-collapse:collapse; width:100%; font-size:.88rem;}
+  .sum-body th{background:var(--surface-2); color:var(--ink); font-weight:700; text-align:right;}
+  .sum-body th,.sum-body td{padding:.5rem .7rem; border-bottom:1px solid var(--line); vertical-align:top;}
+  .sum-body tr:last-child td{border-bottom:0;}
+  .sum-body blockquote{margin:1rem 0; padding:.7rem 1rem; border-right:4px solid var(--bad); background:var(--surface-2); border-radius:8px;}
+  .sum-body blockquote p{margin:0;}
+  .math-block{background:var(--surface-2); border-radius:9px; padding:.7rem 1rem; margin:.8rem 0; overflow-x:auto; text-align:center;}
+  .sum-body code{font-family:'IBM Plex Mono',monospace; font-size:.85em;}
+  .sum-actions{display:flex; gap:.5rem; flex-wrap:wrap;}
+  @media print{ .jump-nav,.search-wrap,.sum-tabs,.sum-actions{display:none !important;} .sum-panel{display:block !important;} }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="header-row">
+    <a class="brand" href="index.html"><span class="logo">🦺</span><span>موسوعة مشرف السلامة</span></a>
+    <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+    <nav class="top" id="topNav">
+      <a href="index.html">الوحدات</a>
+      <a href="summary.html" class="active">الملخص الشامل</a>
+      <a href="quiz.html">بنك الأسئلة</a>
+      <a href="numbers.html">مرجع الأرقام</a>
+      <a href="equations.html">المعادلات</a>
+    </nav>
+    <div class="search-wrap">
+      <input id="globalSearch" type="text" placeholder="ابحث في كل الوحدات…" autocomplete="off">
+      <span class="search-icon">🔍</span>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <button class="theme-btn" id="themeToggle" title="تبديل الوضع الليلي/النهاري">🌓</button>
+  </div>
+</header>
+
+<main class="wrap" style="max-width:900px;">
+  <section class="section-h" style="padding-top:1.8rem;">
+    <h2>الملخص الشامل للامتحان</h2>
+    <p style="color:var(--ink-soft); font-size:.92rem;">ملخص مركّز لامتحان الاختيار من متعدد: كتب معهد السلامة السبعة عشر، وقانون العمل وأنظمة وتعليمات 2023 والضمان الاجتماعي. ابدأ بقسم «مفاتيح الاختيار من متعدد» ليلة الامتحان. القيم المسبوقة بـ «≈» مأخوذة من نص ممسوح ضوئيًا — تحقّق منها في الكتاب الورقي.</p>
+    <div class="sum-actions"><button class="btn secondary" id="btnPrint">🖨️ طباعة / حفظ PDF</button></div>
+  </section>
+
+  <div class="sum-tabs" role="tablist">
+{{TABS}}
+  </div>
+
+{{PANELS}}
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    إعداد: <strong>مأمون السعودي</strong> — منصة دراسية مبنية بمساعدة Claude، بالاستناد إلى مناهج معهد السلامة والصحة المهنية (مؤسسة التدريب المهني، الأردن).<br>
+    <a href="https://github.com/mam87/osh-supervisor-study" target="_blank" rel="noopener">المصدر على GitHub</a>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+<script src="assets/katex/katex.min.js"></script>
+<script>
+(function(){
+  function show(key){
+    document.querySelectorAll('.sum-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === key));
+    document.querySelectorAll('.sum-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + key));
+  }
+  document.querySelectorAll('.sum-tab').forEach(b => b.addEventListener('click', () => {
+    show(b.dataset.tab);
+    try{ history.replaceState(null, '', '#' + b.dataset.tab); }catch(e){}
+  }));
+  // open the right tab for #tab or #heading-id links
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (h){
+    const key = h.split('-')[0];
+    if (document.getElementById('panel-' + key)) show(key);
+    const el = document.getElementById(h); if (el) setTimeout(() => el.scrollIntoView(), 50);
+  }
+  document.getElementById('btnPrint').addEventListener('click', () => window.print());
+  // render ```latex blocks
+  if (window.katex){
+    document.querySelectorAll('.math-block').forEach(el => {
+      const tex = el.textContent.trim().replace(/^\$\$|\$\$$/g, '');
+      try{ katex.render(tex, el, {displayMode:true, throwOnError:false}); }catch(e){}
+    });
+  }
+})();
+</script>
+</body>
+</html>
