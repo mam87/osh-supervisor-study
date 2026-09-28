@@ -60,6 +60,16 @@ nav.top a:hover, nav.top a.active{background:var(--surface-2); color:var(--ink);
   .search-wrap{order:11; flex-basis:100%; max-width:none; margin:0;}
 }
 
+/* search on its own row under the nav (desktop) so it never gets squeezed */
+@media (min-width:981px){
+  .header-row{flex-wrap:wrap; row-gap:.6rem;}
+  .theme-btn{margin-inline-start:auto;}
+  .search-wrap{order:5; flex:1 1 100%; max-width:none; margin:0;}
+}
+@media (min-width:981px) and (max-width:1180px){
+  nav.top{margin-inline-start:0; gap:.1rem;}
+  nav.top a{padding:.45rem .5rem; font-size:.86rem;}
+}
 .search-results{position:absolute; top:calc(100% + .5rem); inset-inline:0; background:var(--surface); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); max-height:70vh; overflow:auto; z-index:60; display:none;}
 .search-results.open{display:block;}
 .search-results .sr-item{display:block; padding:.7rem .9rem; border-bottom:1px solid var(--line); text-decoration:none; color:var(--ink);}
