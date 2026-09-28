@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
 <style>
   .eq-card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:1.1rem 1.3rem; margin-bottom:1rem; box-shadow:var(--shadow);}
   .eq-unit-tag{display:inline-flex; align-items:center; gap:.4rem; font-size:.72rem; font-weight:700; color:var(--brand-2-deep); margin-bottom:.5rem;}
@@ -72,7 +72,7 @@
   </div>
 </footer>
 
-<script src="assets/app.js"></script>
+<script src="assets/app.js?v=2"></script>
 <script>
 function toAr(n){ const d=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return String(n).split('').map(c=>/[0-9]/.test(c)?d[+c]:c).join(''); }
 let ALL_EQ = [];
