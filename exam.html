@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>امتحان المحاكاة — موسوعة مشرف السلامة</title>
+<meta name="description" content="امتحان محاكاة قابل للتخصيص من بنك أسئلة مشرفي السلامة والصحة المهنية (1-1-2025): عدد الأسئلة، الوقت، المواضيع، وعرض الإجابات الصحيحة.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦺</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<style>
+:root{--accent:var(--brand-2); --accent-ink:#101B2D; --accent-soft:#FBEFD2; --ok:var(--good); --ok-soft:#DDF1E5; --bad-soft:#F8E0DD; --warn:#8A5A00; --warn-soft:#FFF1C9;}
+:root[data-theme="dark"]{--accent-soft:#3A2E12; --ok:#5CCB8D; --ok-soft:#173327; --bad:#F07A70; --bad-soft:#3B1F1D; --warn:#F2C45A; --warn-soft:#352A10;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent-soft:#3A2E12; --ok:#5CCB8D; --ok-soft:#173327; --bad:#F07A70; --bad-soft:#3B1F1D; --warn:#F2C45A; --warn-soft:#352A10;}}
+
+main.exam{max-width:860px; padding-bottom:3rem;}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px; box-shadow:var(--shadow); margin-bottom:14px;}
+.panel h3{margin:0 0 10px; font-size:1rem; display:flex; align-items:center; gap:8px;}
+.panel h3::before{content:""; width:12px; height:12px; background:var(--accent); transform:rotate(45deg); border-radius:2px; flex:none;}
+.hint{font-size:.82rem; color:var(--ink-soft); margin:4px 0 0;}
+.row{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
+.chip{font:inherit; font-size:.86rem; padding:.38rem .8rem; border-radius:999px; border:1.5px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; font-weight:600;}
+.chip:hover{border-color:var(--accent);}
+.chip.on{background:var(--accent); color:var(--accent-ink); border-color:var(--accent);}
+.chip small{font-weight:500; opacity:.75; font-variant-numeric:tabular-nums;}
+input[type=number]{font:inherit; font-size:.95rem; width:92px; padding:.4rem .6rem; border-radius:8px; border:1.5px solid var(--line); background:var(--surface); color:var(--ink); font-variant-numeric:tabular-nums;}
+input[type=number]:focus, .chip:focus-visible, .btn:focus-visible, .opt:focus-visible, .nav-q:focus-visible{outline:3px solid var(--accent); outline-offset:2px;}
+.lbl{font-size:.88rem; color:var(--ink-soft); font-weight:600;}
+.toggle{display:flex; align-items:center; gap:8px; font-size:.92rem; cursor:pointer; padding:4px 0;}
+.toggle input{width:18px; height:18px; accent-color:var(--brand-2-deep);}
+.seg{display:inline-flex; border:1.5px solid var(--line); border-radius:10px; overflow:hidden;}
+.seg button{font:inherit; font-size:.88rem; font-weight:600; padding:.45rem .9rem; border:0; background:var(--surface); color:var(--ink); cursor:pointer;}
+.seg button + button{border-inline-start:1.5px solid var(--line);}
+.seg button.on{background:var(--brand); color:#fff;}
+:root[data-theme="dark"] .seg button.on{background:var(--accent); color:var(--accent-ink);}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .seg button.on{background:var(--accent); color:var(--accent-ink);}}
+.summary-line{display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:space-between;}
+.pool{font-size:.92rem;} .pool b{font-size:1.2rem; font-variant-numeric:tabular-nums;}
+.btn{font:inherit; font-size:.92rem; padding:.55rem 1.05rem; border-radius:10px; border:1.5px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; font-weight:700;}
+.btn:hover{border-color:var(--accent);}
+.btn.primary{background:var(--accent); border-color:var(--accent); color:var(--accent-ink);}
+.btn.primary:hover{background:var(--brand-2-deep); border-color:var(--brand-2-deep); color:#fff;}
+.btn.ghost{background:transparent;}
+.btn[disabled]{opacity:.5; cursor:not-allowed;}
+details.fixes summary{cursor:pointer; font-weight:700; font-size:.92rem;}
+details.fixes li{font-size:.86rem; margin:6px 0;}
+
+/* exam */
+.topbar{position:sticky; top:0; z-index:20; background:var(--bg); padding:10px 0; border-bottom:1px solid var(--line); display:flex; gap:12px; align-items:center; flex-wrap:wrap;}
+.timer{font-family:'IBM Plex Mono', monospace; font-size:1.15rem; font-weight:500; padding:.3rem .75rem; border-radius:8px; background:var(--surface-2); font-variant-numeric:tabular-nums;}
+.timer.low{background:var(--bad-soft); color:var(--bad);}
+.progress{flex:1 1 160px; height:8px; background:var(--surface-2); border-radius:4px; overflow:hidden; min-width:120px;}
+.progress i{display:block; height:100%; background:var(--accent); transition:width .2s;}
+.count{font-size:.88rem; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
+.qcard{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow); margin-top:14px;}
+.qmeta{display:flex; gap:8px; align-items:center; flex-wrap:wrap; font-size:.8rem; color:var(--ink-soft); margin-bottom:8px;}
+.tag{display:inline-block; font-size:.74rem; font-weight:600; padding:1px 9px; border-radius:20px; background:var(--surface-2); color:var(--ink-soft);}
+.tag.w{background:var(--warn-soft); color:var(--warn);}
+.qtext{font-size:1.1rem; font-weight:700; margin:0 0 14px; line-height:1.8;}
+.opts{display:grid; gap:9px;}
+.opt{display:flex; align-items:center; gap:12px; text-align:right; width:100%; padding:.7rem .9rem; border-radius:10px; border:1.5px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; font:inherit; font-size:1rem; line-height:1.6;}
+.opt:hover:not([disabled]){border-color:var(--accent); background:var(--accent-soft);}
+.opt .l{flex:none; width:28px; height:28px; border-radius:50%; border:1.5px solid var(--line); display:grid; place-items:center; font-size:.8rem; font-weight:700; color:var(--ink-soft); font-family:'IBM Plex Mono',monospace;}
+.opt.sel{border-color:var(--brand); background:var(--surface-2);}
+.opt.sel .l{background:var(--brand); border-color:var(--brand); color:#fff;}
+:root[data-theme="dark"] .opt.sel{border-color:var(--accent);} :root[data-theme="dark"] .opt.sel .l{background:var(--accent); border-color:var(--accent); color:var(--accent-ink);}
+.opt.correct{border-color:var(--ok); background:var(--ok-soft);}
+.opt.correct .l{background:var(--ok); border-color:var(--ok); color:var(--surface);}
+.opt.wrong{border-color:var(--bad); background:var(--bad-soft);}
+.opt.wrong .l{background:var(--bad); border-color:var(--bad); color:var(--surface);}
+.opt[disabled]{cursor:default;}
+.note{margin-top:12px; font-size:.88rem; padding:.6rem .85rem; border-radius:9px; background:var(--warn-soft); color:var(--ink);}
+.qnav{display:flex; gap:8px; justify-content:space-between; margin-top:16px; flex-wrap:wrap;}
+.navgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(40px,1fr)); gap:6px; margin-top:10px;}
+.nav-q{font:inherit; font-size:.8rem; font-weight:700; height:34px; border-radius:8px; border:1.5px solid var(--line); background:var(--surface); color:var(--ink-soft); cursor:pointer; font-variant-numeric:tabular-nums; position:relative;}
+.nav-q.ans{background:var(--surface-2); color:var(--ink); border-color:var(--ink-soft);}
+.nav-q.cur{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent);}
+.nav-q.flag::after{content:""; position:absolute; top:3px; inset-inline-end:3px; width:7px; height:7px; border-radius:50%; background:var(--accent);}
+.nav-q.ok{background:var(--ok-soft); color:var(--ok); border-color:var(--ok);}
+.nav-q.bad{background:var(--bad-soft); color:var(--bad); border-color:var(--bad);}
+.legend{display:flex; gap:12px; flex-wrap:wrap; font-size:.78rem; color:var(--ink-soft); margin-top:8px;}
+
+/* results */
+.score{display:flex; gap:22px; align-items:center; flex-wrap:wrap;}
+.ring{--p:0; width:120px; height:120px; border-radius:50%; display:grid; place-items:center; background:conic-gradient(var(--c) calc(var(--p)*1%), var(--surface-2) 0); flex:none;}
+.ring span{width:92px; height:92px; border-radius:50%; background:var(--surface); display:grid; place-items:center; font-size:1.5rem; font-weight:800; font-variant-numeric:tabular-nums;}
+.verdict{font-size:1.25rem; font-weight:800; margin:0;}
+.stat-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:8px; margin-top:12px;}
+.stat{background:var(--surface-2); border-radius:10px; padding:10px 12px;}
+.stat b{display:block; font-size:1.2rem; font-variant-numeric:tabular-nums;}
+.stat span{font-size:.8rem; color:var(--ink-soft);}
+.tbar{display:grid; grid-template-columns:minmax(120px,1.4fr) 3fr auto; gap:10px; align-items:center; font-size:.85rem; margin:7px 0;}
+.tbar .track{height:9px; background:var(--surface-2); border-radius:5px; overflow:hidden;}
+.tbar .track i{display:block; height:100%; background:var(--ok);}
+.tbar .v{font-variant-numeric:tabular-nums; color:var(--ink-soft);}
+.rev{border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; background:var(--surface);}
+.rev .qtext{font-size:1rem; margin-bottom:8px;}
+.rev .opt{font-size:.92rem; padding:.45rem .7rem;}
+.hist li{font-size:.86rem; font-variant-numeric:tabular-nums;}
+.hidden{display:none !important;}
+@media (max-width:560px){ .qcard{padding:15px;} .qtext{font-size:1.02rem;} .tbar{grid-template-columns:1fr auto; } .tbar .track{grid-column:1/-1; grid-row:2;} }
+@media (prefers-reduced-motion:no-preference){ .opt{transition:background .15s,border-color .15s;} }
+@media print{ header.site, footer.site, .topbar, .qnav, #navPanel, .noprint{display:none !important;} }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="header-row">
+    <a class="brand" href="index.html"><span class="logo">🦺</span><span>موسوعة مشرف السلامة</span></a>
+    <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+    <nav class="top" id="topNav">
+      <a href="index.html">الوحدات</a>
+      <a href="summary.html">الملخص الشامل</a>
+      <a href="quiz.html">بنك الأسئلة</a>
+      <a href="exam.html" class="active">امتحان المحاكاة</a>
+      <a href="group1-quiz.html">كويز المجموعة الأولى</a>
+      <a href="numbers.html">مرجع الأرقام</a>
+      <a href="equations.html">المعادلات</a>
+    </nav>
+    <div class="search-wrap">
+      <input id="globalSearch" type="text" placeholder="ابحث في كل الوحدات…" autocomplete="off">
+      <span class="search-icon">🔍</span>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <button class="theme-btn" id="themeToggle" title="تبديل الوضع الليلي/النهاري">🌓</button>
+  </div>
+</header>
+
+<main class="wrap exam">
+
+<!-- ================= SETUP ================= -->
+<section id="setup">
+  <section class="section-h" style="padding-top:1.6rem;">
+    <h2>امتحان المحاكاة</h2>
+    <p style="color:var(--ink-soft); font-size:.92rem; margin:.3rem 0 0;">امتحان قابل للتخصيص من ملف «أسئلة مقترحة لبرنامج مشرفي السلامة والصحة المهنية» (إصدار 1-1-2025) — <b id="bankTotal">…</b> سؤالًا بعد التنظيف والمراجعة. اختر عدد الأسئلة والوقت وطريقة عرض الإجابات الصحيحة ثم ابدأ.</p>
+  </section>
+
+  <div class="panel">
+    <h3>عدد الأسئلة</h3>
+    <div class="row" id="countChips"></div>
+    <div class="row" style="margin-top:10px;"><span class="lbl">أو عدد مخصص:</span><input type="number" id="countIn" min="1" value="50" aria-label="عدد الأسئلة"></div>
+  </div>
+
+  <div class="panel">
+    <h3>الوقت</h3>
+    <div class="row" id="timeChips"></div>
+    <div class="row" style="margin-top:10px;"><span class="lbl">أو بالدقائق:</span><input type="number" id="timeIn" min="0" value="50" aria-label="الوقت بالدقائق"><span class="hint" id="timeHint"></span></div>
+  </div>
+
+  <div class="panel">
+    <h3>الإجابات الصحيحة</h3>
+    <div class="seg" role="group" aria-label="وقت إظهار الإجابات">
+      <button type="button" data-mode="exam" class="on">في نهاية الامتحان</button>
+      <button type="button" data-mode="practice">فورًا بعد كل سؤال</button>
+    </div>
+    <p class="hint" id="modeHint">وضع الامتحان: لا تظهر الإجابات إلا بعد التسليم، مع مراجعة كاملة لكل سؤال.</p>
+    <div class="row" style="margin-top:12px;"><span class="lbl">نسبة النجاح:</span><input type="number" id="passIn" min="1" max="100" value="50" aria-label="نسبة النجاح">%</div>
+  </div>
+
+  <div class="panel">
+    <h3>مصدر الأسئلة</h3>
+    <div class="row"><span class="lbl">من السؤال رقم</span><input type="number" id="fromIn" min="1" value="1"><span class="lbl">إلى</span><input type="number" id="toIn" min="1" value="1184"></div>
+    <p class="hint">لتقطيع الملف إلى أجزاء (مثلًا 1–200 ثم 201–400…). الأرقام حسب ترقيم الملف الأصلي.</p>
+    <div class="row" style="margin-top:12px;" id="topicChips"></div>
+    <p class="hint">المواضيع مصنّفة آليًا من نص السؤال؛ اختر موضوعًا أو أكثر، أو اتركها كلها.</p>
+    <div style="margin-top:10px;">
+      <label class="toggle"><input type="checkbox" id="optDup" checked> استبعاد الأسئلة المكررة حرفيًا (<span id="dupCount">0</span> سؤالًا)</label>
+      <label class="toggle"><input type="checkbox" id="optShuffleQ" checked> خلط ترتيب الأسئلة</label>
+      <label class="toggle"><input type="checkbox" id="optShuffleO"> خلط ترتيب الخيارات (لا يشمل أسئلة «جميع ما ذكر» و«A+B»)</label>
+      <label class="toggle"><input type="checkbox" id="optWrong"> أسئلة أخطأت فيها سابقًا فقط (<span id="wrongCount">0</span>)</label>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="summary-line">
+      <div class="pool">متاح في النطاق المختار: <b id="poolCount">0</b> سؤال · الامتحان: <b id="finalCount">0</b> سؤال خلال <b id="finalTime">—</b></div>
+      <button class="btn primary" id="startBtn">ابدأ الامتحان ←</button>
+    </div>
+    <p class="hint" id="resumeHint"></p>
+  </div>
+
+  <div class="panel">
+    <details class="fixes">
+      <summary>ملاحظات التدقيق على مفتاح الإجابات (<span id="fixCount">0</span> تصحيحًا)</summary>
+      <p class="hint">راجعنا الأسئلة كلها؛ هذه أسئلة كان مفتاحها في الملف خاطئًا فصُحّحت. تظهر ملاحظة التصحيح أيضًا تحت السؤال أثناء المراجعة.</p>
+      <ul id="fixList"></ul>
+    </details>
+  </div>
+
+  <div class="panel hidden" id="histPanel">
+    <h3>آخر محاولاتك</h3>
+    <ul class="hist" id="histList"></ul>
+  </div>
+</section>
+
+<!-- ================= EXAM ================= -->
+<section id="exam" class="hidden">
+  <div class="topbar">
+    <span class="timer" id="timer">--:--</span>
+    <div class="progress" aria-hidden="true"><i id="progBar"></i></div>
+    <span class="count" id="progTxt"></span>
+    <button class="btn" id="navToggle">خريطة الأسئلة</button>
+    <button class="btn primary" id="submitBtn">تسليم</button>
+  </div>
+
+  <div class="panel hidden" id="navPanel" style="margin-top:12px;">
+    <div class="navgrid" id="navGrid"></div>
+    <div class="legend"><span>▢ غير مُجاب</span><span>▣ مُجاب</span><span>● مُعلَّم للمراجعة</span></div>
+  </div>
+
+  <div class="qcard" id="qcard"></div>
+  <div class="qnav">
+    <button class="btn" id="prevBtn">→ السابق</button>
+    <button class="btn ghost" id="flagBtn">🔖 علّم للمراجعة</button>
+    <button class="btn" id="nextBtn">التالي ←</button>
+  </div>
+  <p class="hint noprint" style="margin-top:10px;">اختصارات: الأرقام 1–4 لاختيار الإجابة، والأسهم للتنقل.</p>
+</section>
+
+<!-- ================= RESULTS ================= -->
+<section id="results" class="hidden" style="padding-top:1.2rem;">
+  <div class="panel">
+    <div class="score">
+      <div class="ring" id="ring"><span id="pct">0%</span></div>
+      <div>
+        <p class="verdict" id="verdict"></p>
+        <p class="hint" id="verdictSub"></p>
+      </div>
+    </div>
+    <div class="stat-grid" id="statGrid"></div>
+  </div>
+  <div class="panel">
+    <h3>الأداء حسب الموضوع</h3>
+    <div id="topicBars"></div>
+  </div>
+  <div class="panel noprint">
+    <div class="row">
+      <button class="btn primary" id="againBtn">امتحان جديد بنفس الإعدادات</button>
+      <button class="btn" id="retryWrongBtn">إعادة الأخطاء فقط</button>
+      <button class="btn" id="settingsBtn">تغيير الإعدادات</button>
+      <button class="btn ghost" onclick="window.print()">طباعة النتيجة</button>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>مراجعة الإجابات</h3>
+    <div class="row noprint" id="revFilter">
+      <button class="chip on" data-f="wrong">الخاطئة</button>
+      <button class="chip" data-f="skip">غير المُجابة</button>
+      <button class="chip" data-f="flag">المُعلَّمة</button>
+      <button class="chip" data-f="all">الكل</button>
+    </div>
+    <div id="revList" style="margin-top:12px;"></div>
+  </div>
+</section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    إعداد: <strong>مأمون السعودي</strong> — منصة دراسية مبنية بمساعدة Claude، بالاستناد إلى مناهج معهد السلامة والصحة المهنية (مؤسسة التدريب المهني، الأردن).<br>
+    <a href="https://github.com/mam87/osh-supervisor-study" target="_blank" rel="noopener">المصدر على GitHub</a>
+  </div>
+</footer>
+<script src="assets/app.js?v=2"></script>
+<script>
+(function(){
+const $ = id => document.getElementById(id);
+const L = "ABCD";
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("osh-exam-"+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("osh-exam-"+k, JSON.stringify(v)); }catch(e){} },
+  del(k){ try{ localStorage.removeItem("osh-exam-"+k); }catch(e){} }
+};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle = a => { for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+const fmt = s => { s=Math.max(0,Math.round(s)); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h? h+":"+String(m).padStart(2,"0") : m)+":"+String(x).padStart(2,"0"); };
+const NOSHUF = /([A-Dأبجد]\s*\+)|(\d\s*\+\s*\d)|ما ?ذكر|فقط$|^[A-D]$|^(صح|خطأ|خطا|صحيح|نعم|لا)$/;
+
+let BANK=[], TOPICS={}, byId={};
+let cfg = Object.assign({count:50, time:"auto", timeMin:50, mode:"exam", pass:50, from:1, to:1184, topics:[], dup:true, shufQ:true, shufO:false, wrongOnly:false}, store.get("cfg", {}));
+let run = null, tick = null;
+
+/* ---------------- setup ---------------- */
+function pool(){
+  const wrong = new Set(store.get("wrong", []));
+  return BANK.filter(q =>
+    q.id >= cfg.from && q.id <= cfg.to &&
+    (!cfg.topics.length || cfg.topics.includes(q.t)) &&
+    !(cfg.dup && q.dup) &&
+    (!cfg.wrongOnly || wrong.has(q.id)));
+}
+function examCount(p){ return cfg.count === "all" ? p : Math.min(cfg.count, p); }
+function examSeconds(n){ return cfg.time === "none" ? 0 : cfg.time === "auto" ? n*60 : cfg.timeMin*60; }
+
+function renderSetup(){
+  const counts=[10,20,30,50,100,"all"];
+  $("countChips").innerHTML = counts.map(c=>`<button class="chip ${cfg.count===c?"on":""}" data-c="${c}">${c==="all"?"كل الأسئلة":c}</button>`).join("");
+  const times=[["auto","دقيقة لكل سؤال"],["none","بدون وقت"],[15,"15 د"],[30,"30 د"],[60,"60 د"],[90,"90 د"]];
+  $("timeChips").innerHTML = times.map(([v,t])=>`<button class="chip ${(cfg.time===v||(cfg.time==="custom"&&cfg.timeMin===v))?"on":""}" data-t="${v}">${t}</button>`).join("");
+  const tc = {}; BANK.forEach(q=>{ tc[q.t]=(tc[q.t]||0)+1; });
+  $("topicChips").innerHTML = `<button class="chip ${!cfg.topics.length?"on":""}" data-tp="*">كل المواضيع</button>` +
+    Object.entries(TOPICS).map(([k,v])=>`<button class="chip ${cfg.topics.includes(k)?"on":""}" data-tp="${k}">${esc(v)} <small>${tc[k]||0}</small></button>`).join("");
+  $("countIn").value = cfg.count==="all" ? "" : cfg.count;
+  $("timeIn").value = cfg.time==="custom" ? cfg.timeMin : "";
+  $("passIn").value = cfg.pass; $("fromIn").value = cfg.from; $("toIn").value = cfg.to;
+  $("optDup").checked = cfg.dup; $("optShuffleQ").checked = cfg.shufQ; $("optShuffleO").checked = cfg.shufO; $("optWrong").checked = cfg.wrongOnly;
+  document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on", b.dataset.mode===cfg.mode));
+  $("modeHint").textContent = cfg.mode==="exam" ? "وضع الامتحان: لا تظهر الإجابات إلا بعد التسليم، مع مراجعة كاملة لكل سؤال." : "وضع التدريب: تظهر الإجابة الصحيحة فور اختيارك، ولا يمكن تغيير الإجابة بعدها.";
+  $("wrongCount").textContent = store.get("wrong", []).length;
+  updateSummary();
+  const hist = store.get("hist", []);
+  $("histPanel").classList.toggle("hidden", !hist.length);
+  $("histList").innerHTML = hist.slice(0,8).map(h=>`<li>${esc(h.d)} — ${h.ok}/${h.n} (${h.p}%) ${h.p>=h.pass?"✅ ناجح":"❌ راسب"} · ${fmt(h.used)}</li>`).join("");
+  const saved = store.get("run", null);
+  $("resumeHint").innerHTML = saved && !saved.done ? `لديك امتحان غير مكتمل (${saved.order.length} سؤال). <a href="#" id="resumeLink">متابعته</a> · <a href="#" id="dropLink">حذفه</a>` : "";
+  if(saved && !saved.done){
+    $("resumeLink").onclick = e=>{ e.preventDefault(); run = saved; enterExam(); };
+    $("dropLink").onclick = e=>{ e.preventDefault(); store.del("run"); renderSetup(); };
+  }
+}
+function updateSummary(){
+  const p = pool().length, n = examCount(p), s = examSeconds(n);
+  $("poolCount").textContent = p; $("finalCount").textContent = n;
+  $("finalTime").textContent = cfg.time==="none" ? "بدون وقت" : Math.round(s/60)+" دقيقة";
+  $("timeHint").textContent = cfg.time==="auto" ? "(يُحسب تلقائيًا: دقيقة لكل سؤال)" : "";
+  $("startBtn").disabled = !n;
+  store.set("cfg", cfg);
+}
+function bindSetup(){
+  $("countChips").onclick = e=>{ const b=e.target.closest("[data-c]"); if(!b) return; cfg.count = b.dataset.c==="all"?"all":+b.dataset.c; renderSetup(); };
+  $("countIn").oninput = e=>{ const v=parseInt(e.target.value); if(v>0){ cfg.count=v; document.querySelectorAll("#countChips .chip").forEach(c=>c.classList.toggle("on", +c.dataset.c===v)); updateSummary(); } };
+  $("timeChips").onclick = e=>{ const b=e.target.closest("[data-t]"); if(!b) return; const v=b.dataset.t; if(v==="auto"||v==="none") cfg.time=v; else { cfg.time="custom"; cfg.timeMin=+v; } renderSetup(); };
+  $("timeIn").oninput = e=>{ const v=parseInt(e.target.value); if(v>0){ cfg.time="custom"; cfg.timeMin=v; } else if(v===0){ cfg.time="none"; } document.querySelectorAll("#timeChips .chip").forEach(c=>c.classList.toggle("on", c.dataset.t==String(cfg.time==="custom"?cfg.timeMin:cfg.time))); updateSummary(); };
+  document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{ cfg.mode=b.dataset.mode; renderSetup(); });
+  $("passIn").oninput = e=>{ const v=parseInt(e.target.value); if(v>0&&v<=100){ cfg.pass=v; updateSummary(); } };
+  $("fromIn").oninput = e=>{ const v=parseInt(e.target.value); if(v>0){ cfg.from=v; updateSummary(); } };
+  $("toIn").oninput = e=>{ const v=parseInt(e.target.value); if(v>0){ cfg.to=v; updateSummary(); } };
+  $("topicChips").onclick = e=>{ const b=e.target.closest("[data-tp]"); if(!b) return; const k=b.dataset.tp;
+    if(k==="*") cfg.topics=[]; else cfg.topics = cfg.topics.includes(k) ? cfg.topics.filter(x=>x!==k) : cfg.topics.concat(k);
+    renderSetup(); };
+  $("optDup").onchange = e=>{ cfg.dup=e.target.checked; updateSummary(); };
+  $("optShuffleQ").onchange = e=>{ cfg.shufQ=e.target.checked; updateSummary(); };
+  $("optShuffleO").onchange = e=>{ cfg.shufO=e.target.checked; updateSummary(); };
+  $("optWrong").onchange = e=>{ cfg.wrongOnly=e.target.checked; updateSummary(); };
+  $("startBtn").onclick = ()=> startExam(pool());
+}
+
+/* ---------------- exam ---------------- */
+function startExam(p, forceCount){
+  let qs = cfg.shufQ ? shuffle(p.slice()) : p.slice().sort((a,b)=>a.id-b.id);
+  qs = qs.slice(0, forceCount || examCount(qs.length));
+  const n = qs.length; if(!n) return;
+  run = {
+    order: qs.map(q=>q.id),
+    perm: qs.map(q => (cfg.shufO && !q.o.some(o=>NOSHUF.test(o.trim()))) ? shuffle(q.o.map((_,i)=>i)) : q.o.map((_,i)=>i)),
+    ans: {}, flag: {}, cur: 0, mode: cfg.mode, pass: cfg.pass,
+    limit: examSeconds(n), started: Date.now(), used: 0, done: false
+  };
+  store.set("run", run); enterExam();
+}
+function stickTop(){ const h=document.querySelector("header.site"); document.querySelector(".topbar").style.top=(h?h.offsetHeight:0)+"px"; }
+window.addEventListener("resize", stickTop);
+function enterExam(){
+  $("setup").classList.add("hidden"); $("results").classList.add("hidden"); $("exam").classList.remove("hidden");
+  run.resumedAt = Date.now(); run.usedBefore = run.used || 0;
+  clearInterval(tick); tick = setInterval(onTick, 500); onTick();
+  renderQ(); stickTop(); window.scrollTo({top:0});
+}
+function elapsed(){ return run.usedBefore + (Date.now()-run.resumedAt)/1000; }
+function onTick(){
+  if(!run || run.done) return;
+  run.used = elapsed();
+  if(run.limit){
+    const left = run.limit - run.used;
+    $("timer").textContent = "⏱ " + fmt(left);
+    $("timer").classList.toggle("low", left <= 60);
+    if(left <= 0){ finish(true); return; }
+  } else { $("timer").textContent = "⏱ " + fmt(run.used); }
+  if(Math.round(run.used) % 5 === 0) store.set("run", run);
+}
+function renderQ(){
+  const i = run.cur, id = run.order[i], q = byId[id], perm = run.perm[i];
+  const chosen = run.ans[id], revealed = run.mode==="practice" && chosen !== undefined;
+  const opts = perm.map((oi, k) => {
+    let cls = "opt";
+    if(revealed){ if(oi===q.a) cls+=" correct"; else if(oi===chosen) cls+=" wrong"; }
+    else if(oi===chosen) cls+=" sel";
+    return `<button class="${cls}" data-oi="${oi}" ${revealed?"disabled":""}><span class="l">${L[k]}</span><span>${esc(q.o[oi])}</span></button>`;
+  }).join("");
+  $("qcard").innerHTML = `<div class="qmeta"><span class="tag">سؤال ${i+1} من ${run.order.length}</span><span class="tag">رقم ${id} في الملف</span><span class="tag">${esc(TOPICS[q.t]||"")}</span>${run.flag[id]?'<span class="tag w">مُعلَّم</span>':""}</div>
+    <p class="qtext">${esc(q.q)}</p><div class="opts">${opts}</div>
+    ${revealed ? noteHtml(q, chosen) : ""}`;
+  $("prevBtn").disabled = i===0;
+  $("nextBtn").textContent = i===run.order.length-1 ? "إنهاء ومراجعة ←" : "التالي ←";
+  $("flagBtn").textContent = run.flag[id] ? "🔖 إلغاء التعليم" : "🔖 علّم للمراجعة";
+  const answered = Object.keys(run.ans).length;
+  $("progBar").style.width = (answered/run.order.length*100)+"%";
+  $("progTxt").textContent = `أجبت ${answered} من ${run.order.length}`;
+  renderNav();
+}
+function noteHtml(q, chosen){
+  const ok = chosen===q.a;
+  let t = `<div class="note" style="background:${ok?"var(--ok-soft)":"var(--bad-soft)"}"><b>${ok?"✔ إجابة صحيحة":"✘ الإجابة الصحيحة: "+esc(q.o[q.a])}</b>`;
+  if(q.note) t += `<br>${q.orig?"🛠 تم تصحيح مفتاح الملف (كان "+q.orig+"): ":"💡 "}${esc(q.note)}`;
+  return t + `</div>`;
+}
+function renderNav(){
+  $("navGrid").innerHTML = run.order.map((id,k)=>{
+    let c = "nav-q";
+    if(run.ans[id]!==undefined){ c += run.mode==="practice" ? (run.ans[id]===byId[id].a?" ok":" bad") : " ans"; }
+    if(run.flag[id]) c+=" flag"; if(k===run.cur) c+=" cur";
+    return `<button class="${c}" data-k="${k}" aria-label="سؤال ${k+1}">${k+1}</button>`;
+  }).join("");
+}
+function choose(oi){
+  const id = run.order[run.cur];
+  if(run.mode==="practice" && run.ans[id]!==undefined) return;
+  run.ans[id] = oi; store.set("run", run); renderQ();
+}
+function go(k){ if(k<0||k>=run.order.length) return; run.cur=k; renderQ(); $("qcard").scrollIntoView({block:"nearest"}); }
+function bindExam(){
+  $("qcard").onclick = e=>{ const b=e.target.closest(".opt"); if(b && !b.disabled) choose(+b.dataset.oi); };
+  $("prevBtn").onclick = ()=>go(run.cur-1);
+  $("nextBtn").onclick = ()=>{ if(run.cur===run.order.length-1) confirmSubmit(); else go(run.cur+1); };
+  $("flagBtn").onclick = ()=>{ const id=run.order[run.cur]; run.flag[id]=!run.flag[id]; if(!run.flag[id]) delete run.flag[id]; store.set("run",run); renderQ(); };
+  $("navToggle").onclick = ()=> $("navPanel").classList.toggle("hidden");
+  $("navGrid").onclick = e=>{ const b=e.target.closest("[data-k]"); if(b) go(+b.dataset.k); };
+  $("submitBtn").onclick = confirmSubmit;
+  document.addEventListener("keydown", e=>{
+    if($("exam").classList.contains("hidden") || e.target.tagName==="INPUT") return;
+    if(e.key>="1" && e.key<="4"){ const b=$("qcard").querySelectorAll(".opt")[+e.key-1]; if(b && !b.disabled) choose(+b.dataset.oi); }
+    else if(e.key==="ArrowLeft") go(run.cur+1);
+    else if(e.key==="ArrowRight") go(run.cur-1);
+  });
+}
+function confirmSubmit(){
+  const left = run.order.length - Object.keys(run.ans).length;
+  if(left && !confirm(`لم تُجب على ${left} سؤال. هل تريد التسليم الآن؟`)) return;
+  finish(false);
+}
+
+/* ---------------- results ---------------- */
+function finish(timeUp){
+  clearInterval(tick); run.used = Math.min(elapsed(), run.limit || Infinity); run.done = true;
+  const ids = run.order, ok = ids.filter(id=>run.ans[id]===byId[id].a);
+  const wrong = new Set(store.get("wrong", []));
+  ids.forEach(id=>{ if(run.ans[id]===byId[id].a) wrong.delete(id); else if(run.ans[id]!==undefined) wrong.add(id); });
+  store.set("wrong", [...wrong]);
+  const pct = Math.round(ok.length/ids.length*100);
+  const hist = store.get("hist", []);
+  hist.unshift({d:new Date().toLocaleString("ar-JO",{dateStyle:"short",timeStyle:"short"}), n:ids.length, ok:ok.length, p:pct, pass:run.pass, used:Math.round(run.used)});
+  store.set("hist", hist.slice(0,20)); store.del("run");
+  run.timeUp = timeUp; showResults();
+}
+function showResults(){
+  $("exam").classList.add("hidden"); $("setup").classList.add("hidden"); $("results").classList.remove("hidden");
+  const ids = run.order, n = ids.length;
+  const ok = ids.filter(id=>run.ans[id]===byId[id].a).length;
+  const skip = ids.filter(id=>run.ans[id]===undefined).length, bad = n-ok-skip;
+  const pct = Math.round(ok/n*100), passed = pct >= run.pass;
+  $("ring").style.setProperty("--p", pct); $("ring").style.setProperty("--c", passed?"var(--ok)":"var(--bad)");
+  $("pct").textContent = pct+"%";
+  $("verdict").textContent = passed ? "ناجح ✅" : "لم تصل لنسبة النجاح ❌";
+  $("verdictSub").textContent = (run.timeUp ? "انتهى الوقت وسُلّم الامتحان تلقائيًا. " : "") + `نسبة النجاح المطلوبة ${run.pass}%.`;
+  $("statGrid").innerHTML = [["الصحيحة",ok,"var(--ok)"],["الخاطئة",bad,"var(--bad)"],["بدون إجابة",skip,""],["عدد الأسئلة",n,""],["الوقت المستخدم",fmt(run.used),""],["متوسط/سؤال",fmt(run.used/n),""]]
+    .map(([t,v,c])=>`<div class="stat"><b style="${c?"color:"+c:""}">${v}</b><span>${t}</span></div>`).join("");
+  const agg = {}; ids.forEach(id=>{ const t=byId[id].t; agg[t]=agg[t]||{n:0,ok:0}; agg[t].n++; if(run.ans[id]===byId[id].a) agg[t].ok++; });
+  $("topicBars").innerHTML = Object.entries(agg).sort((a,b)=>a[1].ok/a[1].n-b[1].ok/b[1].n).map(([t,v])=>
+    `<div class="tbar"><span>${esc(TOPICS[t]||t)}</span><div class="track"><i style="width:${v.ok/v.n*100}%"></i></div><span class="v">${v.ok}/${v.n}</span></div>`).join("");
+  $("retryWrongBtn").disabled = !(bad+skip);
+  renderReview("wrong"); window.scrollTo({top:0});
+}
+function renderReview(f){
+  document.querySelectorAll("#revFilter .chip").forEach(c=>c.classList.toggle("on", c.dataset.f===f));
+  const list = run.order.map((id,k)=>({id,k})).filter(({id})=>{
+    const a = run.ans[id], q = byId[id];
+    return f==="all" || (f==="wrong" && a!==undefined && a!==q.a) || (f==="skip" && a===undefined) || (f==="flag" && run.flag[id]);
+  });
+  $("revList").innerHTML = list.length ? list.map(({id,k})=>{
+    const q = byId[id], a = run.ans[id];
+    const opts = run.perm[k].map((oi,j)=>`<button class="opt ${oi===q.a?"correct":oi===a?"wrong":""}" disabled><span class="l">${L[j]}</span><span>${esc(q.o[oi])}</span></button>`).join("");
+    return `<div class="rev"><div class="qmeta"><span class="tag">سؤال ${k+1}</span><span class="tag">رقم ${id} في الملف</span>${a===undefined?'<span class="tag w">بدون إجابة</span>':""}</div>
+      <p class="qtext">${esc(q.q)}</p><div class="opts">${opts}</div>${q.note?`<div class="note">${q.orig?"🛠 تم تصحيح مفتاح الملف (كان "+q.orig+"): ":"💡 "}${esc(q.note)}</div>`:""}</div>`;
+  }).join("") : `<p class="hint">لا توجد أسئلة في هذا التصنيف${f==="wrong"?" — أحسنت! 🎉":""}.</p>`;
+}
+function bindResults(){
+  $("revFilter").onclick = e=>{ const b=e.target.closest("[data-f]"); if(b) renderReview(b.dataset.f); };
+  $("againBtn").onclick = ()=> startExam(pool());
+  $("retryWrongBtn").onclick = ()=>{ const ids = run.order.filter(id=>run.ans[id]!==byId[id].a); startExam(ids.map(id=>byId[id]), ids.length); };
+  $("settingsBtn").onclick = backToSetup;
+}
+function backToSetup(){ $("results").classList.add("hidden"); $("exam").classList.add("hidden"); $("setup").classList.remove("hidden"); renderSetup(); window.scrollTo({top:0}); }
+window.addEventListener("beforeunload", ()=>{ if(run && !run.done){ run.used = elapsed(); store.set("run", run); } });
+
+/* ---------------- boot ---------------- */
+fetch("data/exam-bank.json").then(r=>r.json()).then(d=>{
+  BANK = d.questions; TOPICS = d.topics; BANK.forEach(q=>byId[q.id]=q);
+  const maxId = Math.max(...BANK.map(q=>q.id));
+  if(cfg.to > maxId || cfg.to < cfg.from) cfg.to = maxId;
+  $("toIn").max = maxId; $("fromIn").max = maxId;
+  $("bankTotal").textContent = BANK.length;
+  $("dupCount").textContent = BANK.filter(q=>q.dup).length;
+  const fixes = BANK.filter(q=>q.orig);
+  $("fixCount").textContent = fixes.length;
+  $("fixList").innerHTML = fixes.map(q=>`<li><b>س${q.id}:</b> ${esc(q.q)}<br>المفتاح في الملف <b>${q.orig}</b> ← الصحيح <b>${L[q.a]}</b> (${esc(q.o[q.a])}). ${esc(q.note)}</li>`).join("");
+  bindSetup(); bindExam(); bindResults(); renderSetup();
+}).catch(()=>{ $("setup").insertAdjacentHTML("afterbegin", '<div class="panel">تعذّر تحميل بنك الأسئلة. شغّل الموقع عبر خادم (GitHub Pages أو python -m http.server).</div>'); });
+})();
+</script>
+</body>
+</html>
